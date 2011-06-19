@@ -43,11 +43,11 @@ int ordena(int*vetor,int tam)
 
 
 
-int *gera_conjunto(int *alfabeto,int tam_subconjunto, int tam_alfabeto)
+int gera_conjunto(int *subconjunto,int *alfabeto,int tam_subconjunto, int tam_alfabeto)
 {
 	int i,k=0;	
-	int* subconjunto;
-	subconjunto = malloc((tam_subconjunto+1)*sizeof(int));
+	//int* subconjunto;
+	//subconjunto = malloc((tam_subconjunto+1)*sizeof(int));
 	subconjunto[0] = tam_subconjunto;
 
 	for(i=1;i <= tam_subconjunto;i++)
@@ -58,7 +58,7 @@ int *gera_conjunto(int *alfabeto,int tam_subconjunto, int tam_alfabeto)
 		subconjunto[i] = alfabeto[k];
 	}
 	
-	return subconjunto;
+	return 1;
 }
 
 int gera_entrada(FILE *arquivo)
@@ -94,16 +94,18 @@ int gera_entrada(FILE *arquivo)
 			fprintf(arquivo,"%d ",alfabeto[indice]);				
 				
 		nro_subconj = rand()%20;
-		fprintf(arquivo,"\nnro de subconj=%d \n",nro_subconj);
+		fprintf(arquivo,"\n%d \n",nro_subconj);
 
 		for(indice=0;indice<nro_subconj;indice++)
 		{
 			tam_subconj = rand()%tam_alfabeto;
-			conj = gera_conjunto(alfabeto,tam_subconj,tam_alfabeto);
+			int* subconjunto;
+			subconjunto = malloc((tam_subconj+1)*sizeof(int));
+			gera_conjunto(subconjunto,alfabeto,tam_subconj,tam_alfabeto);
 			
 			for(chuchu=0;chuchu<tam_subconj+1;chuchu++)
 			{
-				fprintf(arquivo,"%d ",conj[chuchu]);
+				fprintf(arquivo,"%d ",subconjunto[chuchu]);
 			}
 			fprintf(arquivo,"\n");
 
