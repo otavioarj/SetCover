@@ -112,8 +112,64 @@ int * brute_force_sc(SUBSET *s)
   }
 
 }
-/*
-void greedy_sc(SUBSET *s){
-    //TODO implementar algoritmo aproximado
+int melhorEscolha(int *vetAux, int *controleConjUsado, SUBSET *s){
 
-} */
+	int qntElemDistintos=0, conjEscolhido=-1, i, j, qntElemDist=0;
+
+	for(i=0;i<s->qt_subsets;i++){
+	   if(controleConjUsado[i]==0){
+		for(j=1;j<s->subsets[i][0];j++){
+			if(vetAux[j-1]!=s->subsets[i][j]){
+				qntElemDist++;
+			}
+		}
+		if(qntElemDist>qntElemDistintos){
+			qntElemDistintos=qntElemDist;
+			conjEscolhido=i;
+
+		}
+	   }
+	}
+	controleConjUsado[conjEscolhido]=1;//registra o uso do conjunto
+	return conjEscolhido;
+
+}
+
+
+void greedy_sc(SUBSET *s){
+
+	int *setCover=(int*)malloc(s->qt_subsets*sizeof(int));
+	int qntAlfabetoNaoIncluso=s->size_alphabet, vetAux[s->size_alphabet],i, qntConjUsada=0, jaIncluso=0, j, controleConjUsado[s->qt_subsets];
+
+	for(i=0;i<s->size_alphabet;i++){
+		vetAux[i]=-1;
+	}
+
+	for(i=0;i<s->qt_subsets;i++){
+		controleConjUsado[i]=0;
+	}
+
+
+	while(qntAlfabetoNaoIncluso>0){
+		setCover[qntConjUsada]=melhorEscolha(vetAux,controleConjUsado,s);
+		printf("\nsetcover: %d",setCover[qntConjUsada]);
+
+		for(j=1;j<s->subsets[setCover[qntConjUsada]][0];j++){
+			for(i=0;i<(s->size_alphabet-qntAlfabetoNaoIncluso);i++){
+				if(vetAux[i]==s->subsets[setCover[qntConjUsada]][j]){
+					jaIncluso=1;
+				}
+			}
+			if(jaIncluso==0){//registra os elementos que foram cobertos
+				vetAux[s->size_alphabet-qntAlfabetoNaoIncluso]=s->subsets[setCover[qntConjUsada]][j];
+			}
+			jaIncluso=0;
+			qntAlfabetoNaoIncluso--;
+		}
+		qntConjUsada++;
+
+	}
+	printf("\nQnt conj usada:%d \n",qntConjUsada);
+	free(setCover);
+
+}
