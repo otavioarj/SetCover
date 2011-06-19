@@ -60,7 +60,7 @@ int * isec(SUBSET *s, int  set1[], int set2[])
 int * brute_force_sc(SUBSET *s)
 {
 	short int i,x,k,j;
-	int *intsec,*aux,tam,*set_cover;
+	int *intsec=0,*aux,tam,*set_cover;
 	for(x=1;x<s->size_alphabet;++x)
 	{
 	 	for(i=0;i<s->size_alphabet;++i)
@@ -110,7 +110,7 @@ int * brute_force_sc(SUBSET *s)
 			free(intsec);
 		 }
   }
-
+    return 0;
 }
 int melhorEscolha(int *vetAux, int *controleConjUsado, SUBSET *s){
 
