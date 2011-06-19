@@ -173,3 +173,18 @@ void greedy_sc(SUBSET *s){
 	free(setCover);
 
 }
+void imprime(SUBSET *s){
+    int i,j,k;
+    printf("\nAlfabeto\n");
+    for(i=0;i<s->size_alphabet;i++){
+        printf("%d ",s->alphabet[i]);
+    }
+    printf("\nLista de Subconjuntos\n");
+    for(j=0;j<s->qt_subsets;j++){
+        printf("Subconjunto %d\t",j+1);
+        for(k=1;k<=s->subsets[j][0];k++){
+            printf("%d ",s->subsets[j][k]);
+        }
+        printf("\n");
+    }
+}
