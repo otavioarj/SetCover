@@ -7,11 +7,11 @@ int main(int argc,char * argv[]){
     FILE *report;
     SUBSET *s;
     clock_t t1,t2;
-		int *sub1,*sub2;
+    int *sub1,*sub2,i;
     report = fopen("report.csv","w");
     scanf("%s",end);
     while(strcmp("fim",end)!=0){
-				s=malloc(sizeof(SUBSET));
+        s=malloc(sizeof(SUBSET));
         getSUBSET(s);
         imprime(s);
         t1 = clock();
@@ -27,7 +27,12 @@ int main(int argc,char * argv[]){
         float b = ((float) (t2-t1))/1000;
         fprintf(report,"%d,%d,%6.6f,%6.6f;\n",s->size_alphabet,s->qt_subsets,a,b);
         scanf("%s",end);
-				free(s);
+        free(s->alphabet);
+        for(i=0;i<=s->qt_subsets;i++){
+            free(s->subsets[i]); //desaloca cada subconjunto
+        }
+        free(s->subsets);//desaloca matriz
+        free(s);
     }
     fclose(report);
     return 0;
