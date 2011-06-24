@@ -7,7 +7,7 @@
 int * isec(SUBSET *s, int  set1[], int set2[])
 {
 	int *intsec,*aux;
-	printf("%d %d e %d %d\n",set1[0],set1[1],set2[0],set2[1]);
+	//printf("%d %d e %d %d\n",set1[0],set1[1],set2[0],set2[1]);
 	intsec=malloc(sizeof(int)*(set1[0]+set2[0]));
 	short int i=0,j=0,k1=1,k2=1;
 	int cnt=0;
@@ -110,7 +110,6 @@ int * brute_force_sc(SUBSET *s)
 						  for(k=0;k<=x;k++)
 							  set_cover[k+2]=i-k;
 							set_cover[1]=j;
-							printf("deu %d\n",x);
 						 }
 						
 						free(aux);
