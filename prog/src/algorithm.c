@@ -113,7 +113,7 @@ int * brute_force_sc(SUBSET *s)
 int melhorEscolha(int *vetAux, int *controleConjUsado, SUBSET *s){
 
 	int qntElemDistintos=0, conjEscolhido=-1, i, j, qntElemDist=0, k, encontrado=0;
-	
+
 	for(i=0;i<s->qt_subsets;i++){
 	   qntElemDist=0;
 	   if(controleConjUsado[i]==0){
@@ -127,22 +127,22 @@ int melhorEscolha(int *vetAux, int *controleConjUsado, SUBSET *s){
 		     if(encontrado==0){
 		     	qntElemDist++;
 		     }
-		   
+
 		}
-		
+
 		if(qntElemDist==0){
 			controleConjUsado[i]=1;//caso em que todos os elementos de um conjunto ja foram cobertos, então ele não é mais utilizado
 		}
-		
+
 		if(qntElemDist>qntElemDistintos){
 			qntElemDistintos=qntElemDist;
 			conjEscolhido=i;
-			
+
 		}
 	   }
 	}
-	controleConjUsado[conjEscolhido]=1;//registra o uso do conjunto 
-	return conjEscolhido;	
+	controleConjUsado[conjEscolhido]=1;//registra o uso do conjunto
+	return conjEscolhido;
 
 }
 
@@ -153,28 +153,28 @@ void *greedy_sc(SUBSET *s){
 
 	int *setCover=(int*)malloc((s->qt_subsets+1)*sizeof(int));
 	int qntAlfabetoNaoIncluso=s->size_alphabet, vetAux[s->size_alphabet+1],i, posLivre=1, jaIncluso=0, j, controleConjUsado[s->qt_subsets];
-	
+
 	vetAux[0]=0;//qnt de elementos ja cobertos
 	for(i=1;i<s->size_alphabet;i++){
-		vetAux[i]=-1;	
+		vetAux[i]=-1;
 	}
-	
+
 	for(i=0;i<s->qt_subsets;i++){
 		controleConjUsado[i]=0;
 	}
-	
+
 	setCover[0]=0;//qnt inicial de conjuntos na cobertura
 	while(qntAlfabetoNaoIncluso>0){
 		setCover[posLivre]=melhorEscolha(vetAux,controleConjUsado,s);
 		printf("\nsetcover: %d",setCover[posLivre]);
-		
+
 		for(j=1;j<=s->subsets[setCover[posLivre]][0];j++){
 			for(i=1;i<=vetAux[0];i++){
 				if(vetAux[i]==s->subsets[setCover[posLivre]][j]){
 					jaIncluso=1;
 				}
 			}
-			if(jaIncluso==0){//registra os elementos que foram cobertos 
+			if(jaIncluso==0){//registra os elementos que foram cobertos
 				vetAux[(s->size_alphabet+1)-qntAlfabetoNaoIncluso]=s->subsets[setCover[posLivre]][j];
 				vetAux[0]=(s->size_alphabet+1)-qntAlfabetoNaoIncluso;
 				qntAlfabetoNaoIncluso--;
@@ -183,7 +183,7 @@ void *greedy_sc(SUBSET *s){
 		}
 		posLivre++;
 		setCover[0]++;
-		
+
 	}
 
 }

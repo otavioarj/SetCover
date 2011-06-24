@@ -15,7 +15,7 @@ int main(int argc,char * argv[]){
         getSUBSET(s);
         imprime(s);
         t1 = clock();
-        sub1=brute_force_sc(s);
+ //       sub1=brute_force_sc(s);
         printf("Calculou o forca bruta\n");
         t2 = clock();
         //calcula o tempo total do forca bruta em ms
