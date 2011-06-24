@@ -36,38 +36,44 @@ int ordena(int*vetor,int tam)
 
 void gera_conjunto(int *alfabeto,int tam_subconjunto, int tam_alfabeto,int *subconjunto,int *aux)
 {
-	int i,k=0;	
+	int i,k;	
 	subconjunto[0] = tam_subconjunto;
 
 	for(i=1;i <= tam_subconjunto;i++)
 	{
 		k = rand()%tam_alfabeto + 1;		
 		subconjunto[i] = alfabeto[k];
-		aux[k]++;
+		aux[k] = aux[k]+1;
 	}
 	ordena(subconjunto,tam_subconjunto);
 }
 
-int gera_conjunto_complemento(int *alfabeto,int *aux,int tam_alfabeto,int *conj_compl,int *tam_compl)
+int calcula_vetor_complemento(int *aux,int tam_alfabeto)
 {
-	int i,cont=0,k=1;
+	int i,cont=0;
 	for(i=1;i<=tam_alfabeto;i++)
 	{
 		if(aux[i]==0)
 			cont++;
 	}
-	if(cont!=0)
+	return cont;
+}
+
+int gera_conjunto_complemento(int *alfabeto,int *aux,int tam_alfabeto,int *conj_compl,int tam_compl)
+{	
+	int i,k=1;
+	if(tam_compl!=0)
 	{
-		conj_compl = malloc((cont+1)*sizeof(int));
-		conj_compl[0] = cont;
-		for(i=1;i<=tam_alfabeto;i++)
+		//conj_compl = malloc((cont+1)*sizeof(int));
+		conj_compl[0] = tam_compl;
+		for(i=1;i<=tam_alfabeto;i++){
 			if(aux[i]==0){
 				conj_compl[k] = aux[i];
 				k++;
 			}
+		}
 		//tam_compl = malloc(1*sizeof(int));
-		tam_compl[0]=cont;
-		ordena(conj_compl,cont);	
+		//ordena(conj_compl,tam_compl);	
 		return 1;
 	}
 	else 
@@ -91,7 +97,7 @@ int gera_entrada(FILE *arquivo)
 		alfabeto[0] = tam_alfabeto;
 		aux = malloc((tam_alfabeto+1)*sizeof(int));	
 		
-		for(indice=0;indice<tam_alfabeto;indice++)
+		for(indice=0;indice<=tam_alfabeto;indice++)
 			aux[indice] = 0;
 	
 		while(cont != tam_alfabeto)
@@ -125,11 +131,13 @@ int gera_entrada(FILE *arquivo)
 			fprintf(arquivo,"\n");
 
 		}
-		tam_compl = malloc(1*sizeof(int));
+
+		int tam_compl = calcula_vetor_complemento(aux,tam_alfabeto);
+		conj_compl = malloc((tam_compl+1)*sizeof(int)); 
 		int chuchu2 = gera_conjunto_complemento(alfabeto,aux,tam_alfabeto,conj_compl,tam_compl);
 		
 		if(chuchu2!=0){
-			for(chuchu=1;chuchu <= tam_compl[0]; chuchu++)
+			for(chuchu=0;chuchu <= tam_compl; chuchu++)
 				{
 					fprintf(arquivo,"%d ",conj_compl[chuchu]);
 				}
