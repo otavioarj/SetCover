@@ -16,7 +16,7 @@ int main(int argc,char * argv[]){
         imprime(s);
         t1 = clock();
         sub1=brute_force_sc(s);
-        //printf("Calculou o forca bruta %d %d %d %d %d\n",sub1[0],sub1[1],sub1[2],sub1[3],sub1[4]);
+        printf("Calculou o forca bruta\n");// %d %d %d %d %d\n",sub1[0],sub1[1],sub1[2],sub1[3],sub1[4]);
         t2 = clock();
         //calcula o tempo total do forca bruta em ms
         float a = ((float) (t2-t1))/1000;
@@ -29,7 +29,7 @@ int main(int argc,char * argv[]){
         scanf("%s",end);
         free(s->alphabet);
         for(i=0;i<s->qt_subsets;i++){
-           // free(s->subsets[i]); //desaloca cada subconjunto
+           free(s->subsets[i]); //desaloca cada subconjunto
         }
         free(s->subsets);//desaloca matriz*/
         free(s);
