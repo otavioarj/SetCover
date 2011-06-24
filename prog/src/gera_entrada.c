@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX_CONJ 10     //numero maximo de entradas
+#define MAX_CONJ 10     //numero de entradas
 #define MAX_SUBCONJ 30   //numero maximo de subconjuntos por alfabeto
 #define MAX_ALFABETO 10  //tamanho maximo de um alfabeto
 #define VAL_ELEM 20      //valor maximo de um elemento
@@ -15,19 +15,6 @@ int pertence(int elem, int* vetor,int tam) //verifica se elemento pertence ao al
 			return 0;
 	}
 	return 1;		
-}
-
-int insere(int elem,int*vetor,int tam) //essa eh obvia neh?
-{
-	int i=1;
-
-	while(elem > vetor[i] && vetor[i]!=NULL && i<tam)
-	{	
-				i++;
-	}
-
-	vetor[i] = elem;
-	return 1;
 }
 
 int ordena(int*vetor,int tam)
@@ -47,49 +34,73 @@ int ordena(int*vetor,int tam)
         }
 }
 
-
-
-int *gera_conjunto(int *alfabeto,int tam_subconjunto, int tam_alfabeto)
+void gera_conjunto(int *alfabeto,int tam_subconjunto, int tam_alfabeto,int *subconjunto,int *aux)
 {
 	int i,k=0;	
-	int* subconjunto;
-	subconjunto = malloc((tam_subconjunto+1)*sizeof(int));
 	subconjunto[0] = tam_subconjunto;
 
 	for(i=1;i <= tam_subconjunto;i++)
 	{
-		k = rand()%tam_alfabeto;		
+		k = rand()%tam_alfabeto + 1;		
 		subconjunto[i] = alfabeto[k];
+		aux[k]++;
 	}
 	ordena(subconjunto,tam_subconjunto);
-	return subconjunto;
+}
+
+int gera_conjunto_complemento(int *alfabeto,int *aux,int tam_alfabeto,int *conj_compl,int *tam_compl)
+{
+	int i,cont=0,k=1;
+	for(i=1;i<=tam_alfabeto;i++)
+	{
+		if(aux[i]==0)
+			cont++;
+	}
+	if(cont!=0)
+	{
+		conj_compl = malloc((cont+1)*sizeof(int));
+		conj_compl[0] = cont;
+		for(i=1;i<=tam_alfabeto;i++)
+			if(aux[i]==0){
+				conj_compl[k] = aux[i];
+				k++;
+			}
+		//tam_compl = malloc(1*sizeof(int));
+		tam_compl[0]=cont;
+		ordena(conj_compl,cont);	
+		return 1;
+	}
+	else 
+		return 0;
 }
 
 int gera_entrada(FILE *arquivo)
 {
 	int nro_entradas,tam_alfabeto,nro_subconj,tam_subconj,cont,flag,elem,i,indice,chuchu;
-	int *alfabeto,*conj;	
+	int *alfabeto,*conj,*aux,*conj_compl,*tam_compl;	
 	arquivo = fopen("entrada.txt","a");
-	nro_entradas = rand()%MAX_CONJ;  // %10	
+	nro_entradas = MAX_CONJ;	
 	
 
 	for(i=0;i<nro_entradas;i++)
 	{
 		fprintf(arquivo,"%s","inicio");	
 		cont = 0;
-		tam_alfabeto = rand()%MAX_ALFABETO+1;// %8
+		tam_alfabeto = rand()%MAX_ALFABETO+1;
 		alfabeto = malloc((tam_alfabeto+1)*sizeof(int)); //+1 pq a primeira posicao eh o tamanho dele
 		alfabeto[0] = tam_alfabeto;
+		aux = malloc((tam_alfabeto+1)*sizeof(int));	
 		
+		for(indice=0;indice<tam_alfabeto;indice++)
+			aux[indice] = 0;
+	
 		while(cont != tam_alfabeto)
 		{
-			//flag = 0;
 			elem = rand()%VAL_ELEM;			//elemento do alfabeto %20
 			
 			if(pertence(elem,alfabeto,tam_alfabeto))
 			{
 				alfabeto[cont+1] = elem;				
-				//insere(elem,alfabeto,tam_alfabeto);
 				cont++;
 			}		
 		}
@@ -99,13 +110,13 @@ int gera_entrada(FILE *arquivo)
 			fprintf(arquivo,"%d ",alfabeto[indice]);				
 				
 		nro_subconj = rand()%MAX_SUBCONJ; //%20
-		fprintf(arquivo,"\nnro de subconj=%d \n",nro_subconj);
+		fprintf(arquivo,"\n%d \n",nro_subconj);
 
 		for(indice=0;indice<nro_subconj;indice++)
 		{
-			//printf("\n%d %d",tam_alfabeto,tam_subconj);
 			tam_subconj = rand()%tam_alfabeto;
-			conj = gera_conjunto(alfabeto,tam_subconj,tam_alfabeto);
+			conj = malloc((tam_subconj+1)*sizeof(int));
+			gera_conjunto(alfabeto,tam_subconj,tam_alfabeto,conj,aux);
 			
 			for(chuchu=0;chuchu<tam_subconj+1;chuchu++)
 			{
@@ -114,7 +125,16 @@ int gera_entrada(FILE *arquivo)
 			fprintf(arquivo,"\n");
 
 		}
-
+		tam_compl = malloc(1*sizeof(int));
+		int chuchu2 = gera_conjunto_complemento(alfabeto,aux,tam_alfabeto,conj_compl,tam_compl);
+		
+		if(chuchu2!=0){
+			for(chuchu=1;chuchu <= tam_compl[0]; chuchu++)
+				{
+					fprintf(arquivo,"%d ",conj_compl[chuchu]);
+				}
+				fprintf(arquivo,"\n");		
+			}
 	}
 	free(alfabeto);
 	free(conj);
