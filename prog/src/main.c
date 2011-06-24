@@ -27,7 +27,7 @@ int main(int argc,char * argv[]){
         float b = ((float) (t2-t1))/1000;
         fprintf(report,"%d,%d,%6.6f,%6.6f;\n",s->size_alphabet,s->qt_subsets,a,b);
         scanf("%s",end);
-        /*free(s->alphabet);
+        free(s->alphabet);
         for(i=0;i<s->qt_subsets;i++){
            // free(s->subsets[i]); //desaloca cada subconjunto
         }
