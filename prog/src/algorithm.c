@@ -7,6 +7,7 @@
 int * isec(SUBSET *s, int  set1[], int set2[])
 {
 	int *intsec,*aux;
+	printf("%d %d e %d %d\n",set1[0],set1[1],set2[0],set2[1]);
 	intsec=malloc(sizeof(int)*(set1[0]+set2[0]));
 	short int i=0,j=0,k1=1,k2=1;
 	int cnt=0;
@@ -31,21 +32,29 @@ int * isec(SUBSET *s, int  set1[], int set2[])
 			 }
 			else
 				j-=2;
-
+//treta
 			if(j!=2 && j!=-1 && j!=-4)
 				intsec[++cnt]=s->alphabet[i];
 
 			j=0;
 		}
 	intsec[0]=cnt;
-	if(cnt>0)
+ if(cnt>0)
 	{
 		aux=malloc(sizeof(int)*cnt);
 		for(j=0;j<cnt;j++)
 			aux[j]=intsec[j];
 		free(intsec);
-		intsec=aux;
+		intsec=malloc(sizeof(int)*cnt);
+		for(j=0;j<cnt;j++)
+			intsec[j]=aux[j];
+		free(aux);
 	}
+ else
+  {
+		printf("Grupo fora do universo!!!!\n");
+		exit(1);
+  }
 	return intsec;
 }
 
@@ -54,58 +63,64 @@ int * isec(SUBSET *s, int  set1[], int set2[])
 
 int * brute_force_sc(SUBSET *s)
 {
-	short int i,x,k,j;
-	int *intsec=0,*aux,tam,*set_cover;
-	for(x=1;x<s->qt_subsets;++x)
+	short int i,x,k,j,cnt;
+	int *intsec,*aux,tam,*set_cover;
+	for(x=0;x<s->qt_subsets;++x)
 	{
-	 	for(i=0;i<s->qt_subsets;++i)
+	 	for(i=x;i<s->qt_subsets-x;++i)
 	   {
-		  for(k=i;k<x + i  && x>1 && k<s->qt_subsets;++k)
+		  for(k=i;k>=0 && x>0;k--)
 			 {
 				 if(k==i)
- 				  intsec=isec(s,s->subsets[k],s->subsets[k+1]);
+ 				  intsec=isec(s,s->subsets[--k],s->subsets[k]);
 				 else
 				  {
-					 aux=intsec;
-					 tam=intsec[0];
-					 free(intsec);
-					 aux[0]=tam;
-					 intsec=isec(s,aux,s->subsets[k+1]);
+					 	aux=malloc(sizeof(int)*intsec[0]);
+						for(cnt=0;cnt<intsec[0];cnt++)
+							aux[cnt]=intsec[cnt];
+						free(intsec);					 					 
+					  intsec=isec(s,aux,s->subsets[k]);
+						free(aux);
 			 	 }
 			 }
-			if(x==1)
-			{
+			if(x==0)
+			 {
 				intsec=malloc(sizeof(int)*(s->subsets[i][0]));
 				for(k=0;k<s->subsets[i][0];k++)
 					intsec[k]=s->subsets[i][k];
-			}
+			 }
+			
+			
 			for(j=i+1;j<s->qt_subsets;++j)
 			 {
 		   	 aux=isec(s,intsec,s->subsets[j]);
 				 if(aux[0]==s->size_alphabet)
 				  {
-						if(x==1)
+						if(x==0)
 						 {
 							 set_cover=malloc(3*sizeof(int));
 							 set_cover[0]=2;
 							 set_cover[2]=i;
+							 set_cover[1]=j;
 						 }
 						else
 						 {
               set_cover=malloc((x+2)*sizeof(int));
 						  set_cover[0]=x+1;
-						  for(k=0;k<x;k++)
-							  set_cover[k+2]=i+k;
-						  }
-						set_cover[1]=j;
+						  for(k=0;k<=x;k++)
+							  set_cover[k+2]=i-k;
+							set_cover[1]=j;
+							printf("deu %d\n",x);
+						 }
+						
 						free(aux);
 						free(intsec);
 						return set_cover;
 					}
 				 free(aux);
-			 }
-			free(intsec);
+			 }			
 		 }
+		free(intsec);
   }
 }
 
