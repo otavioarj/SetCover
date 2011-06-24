@@ -1,8 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
-#define MAX_INPUT 100
-#define MAX_ALFA 100
-#define FATOR 0.5
+#define MAX_INPUT 1000
+#define MAX_ALFA 10000
+#define FATOR 0.001
 void gera_entradaV2(FILE *file,int max_alfabeto,int qt_subconjuntos);
 void imprime(int *vetor,int tam){
     int i;
