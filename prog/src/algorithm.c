@@ -7,8 +7,8 @@
 int * isec(SUBSET *s, int  set1[], int set2[])
 {
 	int *intsec,*aux;
-	printf("%d %d e %d %d\n",set1[0],set1[1],set2[0],set2[1]);
-	intsec=malloc(sizeof(int)*(set1[0]+set2[0]));
+	//printf("%d %d e %d %d\n",set1[0],set1[1],set2[0],set2[1]);
+	intsec=malloc(sizeof(int)*(set1[0]+set2[0]+1));
 	int i=0,j=0,k1=1,k2=1,cnt=0;
   for(;i<s->size_alphabet && (k1<=set1[0] || k2<=set2[0]);i++)
 		{
@@ -39,12 +39,12 @@ int * isec(SUBSET *s, int  set1[], int set2[])
 	intsec[0]=cnt;
  if(cnt>0)
 	{
-		aux=malloc(sizeof(int)*cnt+1);
-		for(j=0;j<cnt;j++)
+		aux=malloc(sizeof(int)*(cnt+1));
+		for(j=0;j<=cnt;j++)
 			aux[j]=intsec[j];
 		free(intsec);
-		intsec=malloc(sizeof(int)*cnt+1);
-		for(j=0;j<cnt;j++)
+		intsec=malloc(sizeof(int)*(cnt+1));
+		for(j=0;j<=cnt;j++)
 			intsec[j]=aux[j];
 		free(aux);
 	}
