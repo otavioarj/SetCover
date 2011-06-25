@@ -1,15 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
-<<<<<<< HEAD
+#include<math.h>
 #define MAX_INPUT 100
 #define MAX_ALFA 50
 #define FATOR 0.6
-=======
-//#include "gera_entrada.c"
-#define MAX_INPUT 1000
-#define MAX_ALFA 10000
-#define FATOR 0.001
->>>>>>> fdbf1f7aa11662b5eb6c315ab2b7d6b5bc626f4a
 void gera_entradaV2(FILE *file,int max_alfabeto,int qt_subconjuntos);
 void imprime(int *vetor,int tam){
     int i;
@@ -24,7 +18,7 @@ int main(){
     int i;
     for(i=0;i<MAX_INPUT;i++){
         printf("Gerando entrada\n");
-        gera_entradaV2(arq,MAX_ALFA,(rand()%MAX_ALFA));
+        gera_entradaV2(arq,MAX_ALFA,(rand()%MAX_ALFA)+1);
         printf("Entrada Gerada!\n");
     }
     fclose(arq);
@@ -48,8 +42,9 @@ void gera_entradaV2(FILE *file,int max_alfabeto,int qt_subconjuntos){
         srand(clock());
 
         do{
-            for(k=0;k<35;k++){
-                rand();
+            for(k=0;k<300;k++){
+                 rand();
+                 srand(clock()*rand());
             }
             tam_subconjunto = ((rand()%max_alfabeto)*(FATOR)+1);
         }while(tam_subconjunto==anterior);
