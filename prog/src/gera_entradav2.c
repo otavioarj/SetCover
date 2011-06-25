@@ -1,9 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
-#define MAX_INPUT 100
-#define MAX_ALFA 50
-#define FATOR 0.6
+#define MAX_INPUT 30
+#define MAX_ALFA 1000
+#define FATOR 0.1
 void gera_entradaV2(FILE *file,int max_alfabeto,int qt_subconjuntos);
 void imprime(int *vetor,int tam){
     int i;
@@ -21,6 +21,7 @@ int main(){
         gera_entradaV2(arq,MAX_ALFA,(rand()%MAX_ALFA)+1);
         printf("Entrada Gerada!\n");
     }
+    fprintf(arq,"fim");
     fclose(arq);
 }
 void gera_entradaV2(FILE *file,int max_alfabeto,int qt_subconjuntos){
