@@ -67,7 +67,7 @@ int gera_conjunto_complemento(int *alfabeto,int *aux,int tam_alfabeto,int *conj_
 		conj_compl[0] = tam_compl;
 		for(i=1;i<=tam_alfabeto;i++){
 			if(aux[i]==0){
-				conj_compl[k] = aux[i];
+				conj_compl[k] = alfabeto[i];
 				k++;
 			}
 		}
