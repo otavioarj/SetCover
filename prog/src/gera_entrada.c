@@ -21,7 +21,7 @@ int ordena(int*vetor,int tam)
 {
  int i, j, chave;
 
-        for(j=1; j<tam; j++)
+        for(j=1; j<=tam; j++)
         {
                 chave = vetor[j];
                 i = j-1;

@@ -1,8 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
-#define MAX_INPUT 1000
-#define MAX_ALFA 10000
-#define FATOR 0.001
+#define MAX_INPUT 100
+#define MAX_ALFA 50
+#define FATOR 0.6
 void gera_entradaV2(FILE *file,int max_alfabeto,int qt_subconjuntos);
 void imprime(int *vetor,int tam){
     int i;
@@ -39,10 +39,11 @@ void gera_entradaV2(FILE *file,int max_alfabeto,int qt_subconjuntos){
     subsets = (int **) malloc(sizeof(int *)*qt_subconjuntos);
     for(i=0;i<qt_subconjuntos;i++){
         srand(clock());
-        for(k=0;k<35;k++){
-            rand();
-        }
+
         do{
+            for(k=0;k<35;k++){
+                rand();
+            }
             tam_subconjunto = ((rand()%max_alfabeto)*(FATOR)+1);
         }while(tam_subconjunto==anterior);
         printf("Tamanho do Subconjunto %d\n",tam_subconjunto);
