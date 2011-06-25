@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+//#include "gera_entrada.c"
 #define MAX_INPUT 1000
 #define MAX_ALFA 10000
 #define FATOR 0.001
