@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX_CONJ 10     //numero de entradas
+#define MAX_CONJ 30     //numero de entradas
 #define MAX_SUBCONJ 30   //numero maximo de subconjuntos por alfabeto
-#define MAX_ALFABETO 10  //tamanho maximo de um alfabeto
+#define MAX_ALFABETO 15  //tamanho maximo de um alfabeto
 #define VAL_ELEM 20      //valor maximo de um elemento
 
 
@@ -51,8 +51,6 @@ void gera_conjunto(int *alfabeto,int tam_subconjunto, int tam_alfabeto,int *subc
 int calcula_vetor_complemento(int *aux,int tam_alfabeto)
 {
 	int i,cont=0;
-		//	for(i=1;i<tam_alfabeto;i++)
-		//	printf("%d ",aux[i]);
 
 	for(i=1;i<=tam_alfabeto;i++)
 	{
@@ -68,9 +66,7 @@ int gera_conjunto_complemento(int *alfabeto,int *aux,int tam_alfabeto,int *conj_
 	if(tam_compl!=0)
 	{
 		//conj_compl = malloc((cont+1)*sizeof(int));
-		conj_compl[0] = tam_compl;
-		//for(i=1;i<=tam_alfabeto;i++)
-		//	printf("\n%d",aux[i]);			
+		conj_compl[0] = tam_compl;		
 				
 		for(i=1;i<=tam_alfabeto;i++){ //O ERRO TAH AKI!
 			if(aux[i]==0){
@@ -78,8 +74,6 @@ int gera_conjunto_complemento(int *alfabeto,int *aux,int tam_alfabeto,int *conj_
 				k++;
 			}
 		}
-		for(i=1;i<=tam_alfabeto;i++)
-			printf("\n%d",conj_compl[i]);
 		return 1;
 	}
 	else 
@@ -92,11 +86,10 @@ int gera_entrada(FILE *arquivo)
 	int *alfabeto,*conj,*aux,*conj_compl,*tam_compl;	
 	arquivo = fopen("entrada.txt","a");
 	nro_entradas = MAX_CONJ;	
-	
 
-	for(i=0;i<nro_entradas;i++)
+	for(i=0;i<MAX_CONJ;i++)
 	{
-		fprintf(arquivo,"%s","inicio");	
+		fprintf(arquivo,"%s","inicio\n");	
 		cont = 0;
 		tam_alfabeto = rand()%MAX_ALFABETO+1;
 		alfabeto = malloc((tam_alfabeto+1)*sizeof(int)); //+1 pq a primeira posicao eh o tamanho dele
@@ -117,12 +110,11 @@ int gera_entrada(FILE *arquivo)
 			}		
 		}
 		ordena(alfabeto,tam_alfabeto); //alfabeto vai estar em ordem crescente
-		fprintf(arquivo,"\n");
-		for(indice=0; indice < tam_alfabeto+1;indice++)
-			fprintf(arquivo,"%d ",alfabeto[indice]);				
-				
+		for(indice=0;indice<=tam_alfabeto;indice++)
+			fprintf(arquivo,"%d ",alfabeto[indice]);
+		//fprintf(arquivo,"\n");			
 		nro_subconj = rand()%MAX_SUBCONJ; //%20
-		fprintf(arquivo,"\n%d \n",nro_subconj);
+		fprintf(arquivo,"\n%d \n",nro_subconj); //problema: como saber se havera necessidade de um conj complemento?
 
 		for(indice=0;indice<nro_subconj;indice++)
 		{
@@ -152,13 +144,14 @@ int gera_entrada(FILE *arquivo)
 	}
 	free(alfabeto);
 	free(conj);
-	fprintf(arquivo,"\nfim");
+	fprintf(arquivo,"fim");
 	fclose(arquivo);
 }
 
 int main()
 {
 	int status;	
+	srand(clock());
 	FILE *arquivo;
 	status = gera_entrada(arquivo);
 	return 1;
