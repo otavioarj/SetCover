@@ -39,11 +39,11 @@ int * isec(SUBSET *s, int  set1[], int set2[])
 	intsec[0]=cnt;
  if(cnt>0)
 	{
-		aux=malloc(sizeof(int)*cnt);
+		aux=malloc(sizeof(int)*cnt+1);
 		for(j=0;j<cnt;j++)
 			aux[j]=intsec[j];
 		free(intsec);
-		intsec=malloc(sizeof(int)*cnt);
+		intsec=malloc(sizeof(int)*cnt+1);
 		for(j=0;j<cnt;j++)
 			intsec[j]=aux[j];
 		free(aux);
