@@ -1,9 +1,39 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
-#define MAX_INPUT 30
-#define MAX_ALFA 1000
+#define MAX_INPUT 20
+#define MAX_ALFA 10
 #define FATOR 0.1
+
+
+int pertence(int elem, int* vetor,int tam) //verifica se elemento pertence ao alfabeto "vetor"
+{
+	int i;
+	for(i=1;i<tam;i++){
+		if(elem == vetor[i])
+			return 0;
+	}
+	return 1;
+}
+
+int ordena(int*vetor,int tam)
+{
+ int i, j, chave;
+        for(j=1; j<=tam; j++)
+        {
+                chave = vetor[j];
+                i = j-1;
+                while(i >= 1 && vetor[i] > chave)
+                {
+                        vetor[i+1] = vetor[i];
+                        i--;
+                }
+                vetor[i+1] = chave;
+        }
+}
+
+
+
 void gera_entradaV2(FILE *file,int max_alfabeto,int qt_subconjuntos);
 void imprime(int *vetor,int tam){
     int i;
@@ -43,10 +73,7 @@ void gera_entradaV2(FILE *file,int max_alfabeto,int qt_subconjuntos){
         srand(clock());
 
         do{
-            for(k=0;k<300;k++){
-                 rand();
-                 srand(clock()*rand());
-            }
+            srand(NULL);
             tam_subconjunto = ((rand()%max_alfabeto)*(FATOR)+1);
         }while(tam_subconjunto==anterior);
         printf("Tamanho do Subconjunto %d\n",tam_subconjunto);

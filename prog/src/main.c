@@ -13,18 +13,16 @@ int main(int argc,char * argv[]){
     while(strcmp("fim",end)!=0){
         s=malloc(sizeof(SUBSET));
         getSUBSET(s);
-        imprime(s);
+        //imprime(s);
         t1 = clock();
-        sub1=brute_force_sc(s);
-        printf("Calculou o forca bruta\n");
-        sub1=brute_force_sc(s);
-        printf("Calculou o forca bruta\n");// %d %d %d %d %d\n",sub1[0],sub1[1],sub1[2],sub1[3],sub1[4]);
-        t2 = clock();
+				sub2=greedy_sc(s);
+        printf("Calculou o guloso\n");
+        t2 = clock();				
         //calcula o tempo total do forca bruta em ms
         float a = ((float) (t2-t1))/1000;
         t1 = clock();
-        sub2=greedy_sc(s);
-        printf("Calculou o guloso\n");
+				sub1=brute_force_sc(s);
+        printf("Calculou o forca bruta\n");
         t2 = clock();
         float b = ((float) (t2-t1))/1000;
         fprintf(report,"%d,%d,%6.6f,%6.6f;\n",s->size_alphabet,s->qt_subsets,a,b);

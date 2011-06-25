@@ -7,11 +7,10 @@
 int * isec(SUBSET *s, int  set1[], int set2[])
 {
 	int *intsec,*aux;
-	//printf("%d %d e %d %d\n",set1[0],set1[1],set2[0],set2[1]);
+	printf("%d %d e %d %d\n",set1[0],set1[1],set2[0],set2[1]);
 	intsec=malloc(sizeof(int)*(set1[0]+set2[0]));
-	short int i=0,j=0,k1=1,k2=1;
-	int cnt=0;
-  for(;i<s->size_alphabet;i++)
+	int i=0,j=0,k1=1,k2=1,cnt=0;
+  for(;i<s->size_alphabet && (k1<=set1[0] || k2<=set2[0]);i++)
 		{
 			if(k1<=set1[0])
 			 {
@@ -35,7 +34,6 @@ int * isec(SUBSET *s, int  set1[], int set2[])
 //treta
 			if(j!=2 && j!=-1 && j!=-4)
 				intsec[++cnt]=s->alphabet[i];
-
 			j=0;
 		}
 	intsec[0]=cnt;
@@ -69,7 +67,7 @@ int * brute_force_sc(SUBSET *s)
 	{
 	 	for(i=x;i<s->qt_subsets-x;++i)
 	   {
-		  for(k=i;k>=0 && x>0;k--)
+		  for(k=i;k>=i-x && x>0;k--)
 			 {
 				 if(k==i)
  				  intsec=isec(s,s->subsets[--k],s->subsets[k]);
@@ -91,8 +89,9 @@ int * brute_force_sc(SUBSET *s)
 			 }
 			
 			
-			for(j=i+1;j<s->qt_subsets;++j)
+			for(j=i+1;j<s->qt_subsets;j++)
 			 {
+				 //printf("comparando\n");
 		   	 aux=isec(s,intsec,s->subsets[j]);
 				 if(aux[0]==s->size_alphabet)
 				  {
@@ -117,9 +116,9 @@ int * brute_force_sc(SUBSET *s)
 						return set_cover;
 					}
 				 free(aux);
-			 }			
+			 }		 
+			free(intsec);		
 		 }
-		free(intsec);
   }
 }
 
@@ -180,7 +179,7 @@ void *greedy_sc(SUBSET *s){
 	setCover[0]=0;//qnt inicial de conjuntos na cobertura
 	while(qntAlfabetoNaoIncluso>0){
 		setCover[posLivre]=melhorEscolha(vetAux,controleConjUsado,s);
-		printf("\nsetcover: %d",setCover[posLivre]);
+		//printf("\nsetcover: %d",setCover[posLivre]);
 
 		for(j=1;j<=s->subsets[setCover[posLivre]][0];j++){
 			for(i=1;i<=vetAux[0];i++){
